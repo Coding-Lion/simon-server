@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+  <title>Dashboard</title>
+</head>
+
+<body>
+  <style>
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    #message {
+      height: 50px;
+      font-size: 30px;
+      text-align: center;
+      display: block;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 25px auto;
+      font-size: 0.9em;
+      font-family: sans-serif;
+      min-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #dddddd;
+    }
+
+    tbody tr:nth-of-type(even) {
+      background-color: #f3f3f3;
+    }
+
+    tbody tr:last-of-type {
+      border-bottom: 2px solid #009879;
+    }
+
+
+
+    button {
+      margin: 12px;
+      box-shadow: inset 0px 1px 0px 0px #97c4fe;
+      background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+      background-color: #3d94f6;
+      border-radius: 6px;
+      border: 1px solid #337fed;
+      display: inline-block;
+      cursor: pointer;
+      color: #ffffff;
+      font-family: Arial;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 6px 24px;
+      text-decoration: none;
+      text-shadow: 0px 1px 0px #1570cd;
+    }
+
+    button:hover {
+      background: linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+      background-color: #1e62d0;
+    }
+
+    button:active {
+      position: relative;
+      top: 1px;
+    }
+
+    #buttons {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+  <div id="message"></div>
+  <div id="buttons">
+
+    <button onclick="startGame()">Spiel starten</button>
+    <button onclick="stopGame()">StopGame</button>
+  </div>
+  <div>
+    <table id="score">
+    </table>
+  </div>
+
+  <script>
+
+    ws = new WebSocket("wss://simon.hyperelague.de/dashboard");
+
+    ws.onopen = () => {
+      ws.send(JSON.stringify({type: "initDashboard"}));
+      document.getElementById("message").innerText = "Verbunden"
+    }
+
+    ws.onmessage = function (event) {
+      console.log(event.data);
+      const message = JSON.parse(event.data);
+      if (message.type == 'status') {
+        document.getElementById("message").innerText = message.data
+      }
+      if (message.type == 'scoreboard') {
+
+        document.getElementById("score").innerHTML = `<tr>
+        <th>Spieler</th>
+        <th>Punkte</th>
+      </tr>`;
+
+        for (const player of message.data) {
+          document.getElementById("score").innerHTML += `
+      <tr>
+        <td>${player.name}</td>
+        <td>${player.score}</td>
+      </tr>
+          `;
+
+        }
+
+      }
+    }
+
+    function startGame() {
+      ws.send(JSON.stringify({type: "startGame"}));
+    }
+    function stopGame() {
+      ws.send(JSON.stringify({type: "stopGame"}));
+    }
+  </script>
+</body>
+
+</html>
