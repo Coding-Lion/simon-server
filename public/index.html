@@ -93,7 +93,7 @@
 
   <script>
 
-    ws = new WebSocket("wss://simon.hyperelague.de/dashboard");
+    ws = new WebSocket("wss://simon.hyperleague.de/dashboard");
 
     ws.onopen = () => {
       ws.send(JSON.stringify({type: "initDashboard"}));
