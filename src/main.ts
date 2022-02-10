@@ -82,8 +82,8 @@ app.ws('/', function (ws, req) {
     if (msg[0] == "2") {
       console.log("player response")
       if (player) {
-        player.response = msg[1];
-        player.responseTime = msg[2];
+        player.response = args[1];
+        player.responseTime = args[2];
       }
     }
 
