@@ -114,6 +114,16 @@ async function startGame() {
     };
   }
 
+  
+  players.forEach((player) => {
+    try {
+      const array = new Uint8Array(1);
+      array[0] = 5;
+      player.ws.send(array, { binary: true });
+    } catch (error) {
+      console.error(error);
+    }
+  })
 
   sendDashboardMessage({ type: "status", data: `Spiel beendet` })
   gameState = 'stopped';
