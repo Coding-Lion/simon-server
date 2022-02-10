@@ -110,7 +110,7 @@ async function startGame() {
     if (gameState == "stopping") {
 
       gameState = 'stopped';
-      return;
+      break;
     };
   }
 
