@@ -78,7 +78,7 @@ app.ws('/', function (ws, req) {
       sendDashboardMessage({ type: "scoreboard", data: players.map(player => player.getJson()).sort((a,b)=> a.score - b.score) });
     }
 
-    const args = msg.split(",");
+    const args = msg.toString().split(",");
     if (msg[0] == "2") {
       console.log("player response")
       if (player) {
