@@ -176,7 +176,7 @@ function sendChallenge() {
 function sendChallengeResult(requiredButton: number) {
   let winningPlayer: Player;
   for (const player of players) {
-    if (player.response == requiredButton && (!winningPlayer || winningPlayer.responseTime < player.responseTime)) {
+    if (player.response == requiredButton && (!winningPlayer || winningPlayer.responseTime > player.responseTime)) {
       winningPlayer = player;
     }
   }
