@@ -61,7 +61,7 @@ app.ws('/', function (ws, req) {
 
   ws.binaryType = "arraybuffer";
   ws.on('message', function (msg) {
-    var uint8View = new Uint8Array(msg);
+    var uint8View = new Uint16Array(msg);
     console.log(uint8View);
 
     if (uint8View[0] == 1) {
