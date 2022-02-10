@@ -59,12 +59,10 @@ app.ws('/', function (ws, req) {
 
   let player: Player;
 
-  ws.binaryType = "arraybuffer";
   ws.on('message', function (msg) {
-    var uint8View = new Uint16Array(msg);
-    console.log(uint8View);
 
-    if (uint8View[0] == 1) {
+
+    if (msg == "1") {
       if (player) {
         console.log("init already done")
         // TODO: delte old player
@@ -80,12 +78,12 @@ app.ws('/', function (ws, req) {
       sendDashboardMessage({ type: "scoreboard", data: players.map(player => player.getJson()).sort((a,b)=> a.score - b.score) });
     }
 
-
-    if (uint8View[0] == 2) {
+    const args = msg.split(",");
+    if (msg[0] == "2") {
       console.log("player response")
       if (player) {
-        player.response = uint8View[1];
-        player.responseTime = uint8View[2];
+        player.response = msg[1];
+        player.responseTime = msg[2];
       }
     }
 
