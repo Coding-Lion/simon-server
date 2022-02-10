@@ -204,7 +204,7 @@ async function awaitChallengeRespose() {
     let interval;
     let intervalCount = 0;
     interval = setInterval(() => {
-      if (intervalCount++ > 12) {
+      if (intervalCount++ > 25) {
 
         for (const player of players) {
           if (player.response == 0) {
