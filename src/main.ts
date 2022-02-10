@@ -83,6 +83,7 @@ app.ws('/', function (ws, req) {
       console.log("player response")
       if (player) {
         player.response = args[1];
+        console.log("speed: " + args[2])
         player.responseTime = args[2];
       }
     }
