@@ -70,6 +70,7 @@ app.ws('/', function (ws, req) {
         // TODO: delte old player
         return;
       }
+      console.log("init player")
       player = new Player(ws);
       players.push(player);
       const array = new Uint8Array(1);
@@ -81,6 +82,7 @@ app.ws('/', function (ws, req) {
 
 
     if (uint8View[0] == 2) {
+      console.log("player response")
       if (player) {
         player.response = uint8View[1];
         player.responseTime = uint8View[2];
